@@ -48,6 +48,7 @@ public class VExtModClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		registerWoodTypeCutoutLayers();
 		registerStoneTypeCutoutLayers();
+		registerDecoCutoutLayers();
 		registerCropCutoutLayers();
 
 		BlockRenderLayerMap.putBlock(ModBlocks.CARPENTRY_TABLE, BlockRenderLayer.CUTOUT);
@@ -86,6 +87,13 @@ public class VExtModClient implements ClientModInitializer {
 			stoneType.getModStoneSet().getAllStoneSubSets().forEach(subSet ->
 					subSet.getAllBlockFamilies().forEach(this::registerStoneFamilyOverlays));
 		}
+	}
+
+	/**
+	 * Registers cutout render layers for all deco blocks.
+	 */
+	private void registerDecoCutoutLayers() {
+		BlockRenderLayerMap.putBlock(ModBlocks.HAY_RACK, BlockRenderLayer.CUTOUT);
 	}
 
 	/**

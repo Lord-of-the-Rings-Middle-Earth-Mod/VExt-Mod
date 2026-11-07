@@ -127,6 +127,14 @@ public class ModItemGroups {
 						entries.add(ModItems.COOKED_CORN);
 					})).build());
 
+
+	public static final ItemGroup VEXT_HEARTHSIDE_DECO = Registry.register(Registries.ITEM_GROUP,
+			Identifier.of(VExtMod.MOD_ID, "vext_hearthside_deco"), FabricItemGroup.builder().displayName(
+					Text.translatableWithFallback("itemgroup.vext_hearthside_deco", "VEXT Hearthside Deco"))
+					.icon(() -> new ItemStack(BlueslateBlocks.BLUESLATE))
+					.entries(((displayContext, entries) -> {
+						entries.add(ModBlocks.HAY_RACK);
+					})).build());
 	/**
 	 * Currently disable to not include the Hobbit_Spawn Egg into the game, as Hobbits are bugged without fix.
 	 *

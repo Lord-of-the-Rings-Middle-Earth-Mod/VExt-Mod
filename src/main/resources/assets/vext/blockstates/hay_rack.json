@@ -1,0 +1,65 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "vext:block/hay_rack"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill1"
+      },
+      "when": {
+        "level": "1"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill2"
+      },
+      "when": {
+        "level": "2"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill3"
+      },
+      "when": {
+        "level": "3"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill4"
+      },
+      "when": {
+        "level": "4"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill5"
+      },
+      "when": {
+        "level": "5"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill6"
+      },
+      "when": {
+        "level": "6"
+      }
+    },
+    {
+      "apply": {
+        "model": "vext:block/hay_rack_fill_hay"
+      },
+      "when": {
+        "level": "7"
+      }
+    }
+  ]
+}
