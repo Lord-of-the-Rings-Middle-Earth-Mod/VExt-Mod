@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  * Using a pebble item on an existing pebbles block adds one more pebble (like sea pickles).
  * Each pebble adds one more stone to the model, the stones already lying there stay in place.
  * <p>
- * The block breaks instantly with any tool or by hand, but every click only removes one pebble,
+ * The block breaks very fast with any tool or by hand (strength 0.1), but every click only removes one pebble,
  * see {@link #registerBreakHandler()}. It has no collision and gets a small random offset like flowers.
  *
  * @author AnoJedt

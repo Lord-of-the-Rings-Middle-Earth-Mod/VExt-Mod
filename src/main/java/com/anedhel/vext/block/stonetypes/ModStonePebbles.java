@@ -89,7 +89,9 @@ public class ModStonePebbles {
 	private static StonePebbles create(String name, String displayName, Block baseStone, @Nullable Block cobbled) {
 		Block block = registerBlock(name + "_pebbles",
 				settings -> new PebblesBlock(settings
-						.breakInstantly()
+						// not instant: instant blocks break again every tick while the button is held,
+						// so one click would remove several pebbles in survival
+						.strength(0.1f)
 						.noCollision()
 						.offset(AbstractBlock.OffsetType.XZ)
 						.sounds(BlockSoundGroup.STONE)
