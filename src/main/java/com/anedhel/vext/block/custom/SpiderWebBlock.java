@@ -274,9 +274,8 @@ public class SpiderWebBlock extends Block {
     /**
      * Breaks the block on entity collision.
      * <p>
-     * The web breaks without drops when a player is sprinting through it. When an entity moves
-     * faster than 0.9 blocks per tick (arrow, egg, falling player...) the web breaks and uses the
-     * lower string chance of the loot table, because no player is passed as breaking entity.
+     * The web breaks without drops when a player is sprinting through it or when an entity moves
+     * faster than 0.9 blocks per tick (arrow, egg, falling player...).
      * <p>
      * Players trigger this in the full block, other entities only on the web shape, see
      * {@link #getInsideCollisionShape(BlockState, BlockView, BlockPos, Entity)}.
@@ -298,7 +297,7 @@ public class SpiderWebBlock extends Block {
         Vec3d velocity = entity.getVelocity();
         double speed = velocity.length();
         if (speed > 0.9) {
-            world.breakBlock(pos, true); // drops with the lower string chance (no breaking entity)
+            world.breakBlock(pos, false); // no item drop
         }
     }
 
