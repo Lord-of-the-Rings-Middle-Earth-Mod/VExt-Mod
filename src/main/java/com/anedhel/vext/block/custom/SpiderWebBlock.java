@@ -272,10 +272,14 @@ public class SpiderWebBlock extends Block {
     }
 
     /**
-     * Breaks the block on entity collision, without item drops.
+     * Breaks the block on entity collision.
      * <p>
-     * The web breaks when a player is sprinting through it or when an entity moves faster
-     * than 0.9 blocks per tick (arrow, egg, falling player...).
+     * The web breaks without drops when a player is sprinting through it. When an entity moves
+     * faster than 0.9 blocks per tick (arrow, egg, falling player...) the web breaks and uses the
+     * lower string chance of the loot table, because no player is passed as breaking entity.
+     * <p>
+     * Only called when the entity touches the web shape, see
+     * {@link #getInsideCollisionShape(BlockState, BlockView, BlockPos, Entity)}.
      * <p>
      * A falling player reaches 0.9 blocks per tick after roughly 6 blocks of free fall
      * (a bit less when jumping off). At that speed the player hitbox (1.8 blocks high)
@@ -294,8 +298,17 @@ public class SpiderWebBlock extends Block {
         Vec3d velocity = entity.getVelocity();
         double speed = velocity.length();
         if (speed > 0.9) {
-            world.breakBlock(pos, false); // no item drop
+            world.breakBlock(pos, true); // drops with the lower string chance (no breaking entity)
         }
+    }
+
+    /**
+     * Limits {@link #onEntityCollision} to the visible web shape instead of the full block,
+     * so an egg or arrow only breaks the web when it actually hits the web.
+     */
+    @Override
+    protected VoxelShape getInsideCollisionShape(BlockState state, BlockView world, BlockPos pos, Entity entity) {
+        return SHAPES.get(state.get(SPIDER_WEB_TYPE));
     }
 
     @Override
