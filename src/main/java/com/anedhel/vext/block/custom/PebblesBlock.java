@@ -124,12 +124,12 @@ public class PebblesBlock extends Block {
 	}
 
 	/**
-	 * Limits the random offset to 2 pixels, so the stones do not stick out of the block too much.
+	 * Limits the random offset to 1 pixel, so the stones of neighboring pebbles blocks do not overlap.
 	 * Flowers use 0.25 (4 pixels).
 	 */
 	@Override
 	protected float getMaxHorizontalModelOffset() {
-		return 0.125f;
+		return 1.0f / 16.0f;
 	}
 
 	/**
