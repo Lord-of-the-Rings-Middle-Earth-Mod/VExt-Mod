@@ -246,7 +246,7 @@ public class ModModelProvider extends FabricModelProvider {
 	/**
 	 * Generates the models, block state and item model of a {@link PebblesBlock}.
 	 * <p>
-	 * For every pebble count (1-6) one model is generated from {@code template_pebbles_<count>}, using the
+	 * For every pebble count (1-6) one model is generated from {@code pebbles_<count>}, using the
 	 * texture of the base stone. Each count gets the same four y-rotations, so a block keeps its rotation
 	 * when pebbles are added and the stones already lying there stay in place.
 	 * The item uses the model with three stones.

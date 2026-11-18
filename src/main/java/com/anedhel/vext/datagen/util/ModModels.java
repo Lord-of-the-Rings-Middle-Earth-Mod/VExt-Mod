@@ -300,12 +300,12 @@ public class ModModels {
 	 * The generated models are named {@code <stone type>_pebbles_1} to {@code _6}.
 	 */
 	public static final Model[] PEBBLES = {
-			block("template_pebbles_1", "_1", ModTextureKeys.STONE),
-			block("template_pebbles_2", "_2", ModTextureKeys.STONE),
-			block("template_pebbles_3", "_3", ModTextureKeys.STONE),
-			block("template_pebbles_4", "_4", ModTextureKeys.STONE),
-			block("template_pebbles_5", "_5", ModTextureKeys.STONE),
-			block("template_pebbles_6", "_6", ModTextureKeys.STONE)
+			block("pebbles_1", "_1", ModTextureKeys.STONE),
+			block("pebbles_2", "_2", ModTextureKeys.STONE),
+			block("pebbles_3", "_3", ModTextureKeys.STONE),
+			block("pebbles_4", "_4", ModTextureKeys.STONE),
+			block("pebbles_5", "_5", ModTextureKeys.STONE),
+			block("pebbles_6", "_6", ModTextureKeys.STONE)
 	};
 
 	/**
