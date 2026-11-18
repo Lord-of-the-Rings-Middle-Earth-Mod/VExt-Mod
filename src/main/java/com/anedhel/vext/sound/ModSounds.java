@@ -20,7 +20,7 @@ import net.minecraft.util.Identifier;
 /**
  * This class is responsible for registering all custom sound events and block sound groups for the mod.
  * <p>
- * Every sound event registered here needs a matching entry in {@code assets/vext/sounds.json}.
+ * Every sound event registered here needs a matching entry in {@code assets/vext/sounds.ogg}.
  *
  * @author AnoJedt
  * @since after 0.1.0
