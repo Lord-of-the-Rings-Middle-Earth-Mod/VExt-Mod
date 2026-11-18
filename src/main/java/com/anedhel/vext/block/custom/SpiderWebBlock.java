@@ -1,7 +1,18 @@
+/*
+ * Copyright (c) 2026.
+ * Authors/Developers are listed in the CONTRIBUTING.md
+ *
+ * The Vanilla Extensions Mod is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+ *
+ * The Vanilla Extensions Mod is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>
+ */
+
 package com.anedhel.vext.block.custom;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.MultifaceBlock;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
@@ -135,13 +146,13 @@ public class SpiderWebBlock extends Block {
 
 
     /**
-     * Determines the updated block state for this SpiderWeb block based on the presence of adjacent full blocks.
+     * Checks whether the web can attach to the block at the given position (same rule as vines).
      *
-     * @param world the world view used to check the state of neighboring blocks
-     * @param pos the position of this block in the world
-     * @return the updated block state with the correct {@link SpiderWebType}
+     * @param world the world view
+     * @param pos the position of the neighboring block
+     * @param direction the face of the neighboring block that points towards the web
+     * @return {@code true} if the web can hold on to that face
      */
-
     private boolean canAttachTo(WorldView world, BlockPos pos, Direction direction) {
         BlockState state = world.getBlockState(pos);
 
@@ -153,6 +164,13 @@ public class SpiderWebBlock extends Block {
         );
     }
 
+    /**
+     * Determines the updated block state for this SpiderWeb block based on the presence of adjacent full blocks.
+     *
+     * @param world the world view used to check the state of neighboring blocks
+     * @param pos the position of this block in the world
+     * @return the updated block state with the correct {@link SpiderWebType}
+     */
     private BlockState getUpdatedState(WorldView world, BlockPos pos) {
         boolean hasBlockNorth = canAttachTo(world, pos.north(), Direction.SOUTH);
         boolean hasBlockEast = canAttachTo(world, pos.east(), Direction.WEST);
@@ -234,16 +252,17 @@ public class SpiderWebBlock extends Block {
      * @param neighborPos the position of the neighbor block
      * @param neighborState the state of the updated neighbor block
      * @param random the random instance
-     * @return the updated block state if a relevant neighbor changed, otherwise the current state
+     * @return air if the web lost all connections (the web breaks and drops its loot,
+     *         see {@code loot_table/blocks/spider_web.json}), the updated block state if a relevant
+     *         neighbor changed, otherwise the current state
      */
     @Override
     protected BlockState getStateForNeighborUpdate(BlockState state, WorldView world, ScheduledTickView tickView,
                                                    BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, Random random) {
         if (!state.canPlaceAt(world, pos)) {
-            if (world instanceof World realWorld && !realWorld.isClient()) {
-                realWorld.breakBlock(pos, true);
-            }
-            return state;
+            // Returning air lets vanilla break the block with drops but without a breaking entity,
+            // so the loot table uses the lower string chance (no player involved).
+            return Blocks.AIR.getDefaultState();
         }
         if(direction == Direction.NORTH || direction == Direction.EAST || direction == Direction.SOUTH || direction == Direction.WEST || direction == Direction.UP) {
             return getUpdatedState(world, pos);
@@ -253,25 +272,30 @@ public class SpiderWebBlock extends Block {
     }
 
     /**
-     * breaks the block on entity Collision.
-     * breaks when entitys velocity is greater than 0.9 or player is running.
+     * Breaks the block on entity collision, without item drops.
+     * <p>
+     * The web breaks when a player is sprinting through it or when an entity moves faster
+     * than 0.9 blocks per tick (arrow, egg, falling player...).
+     * <p>
+     * A falling player reaches 0.9 blocks per tick after roughly 6 blocks of free fall
+     * (a bit less when jumping off). At that speed the player hitbox (1.8 blocks high)
+     * touches 2-3 webs at the same time, and this method runs for each of them, so several
+     * webs stacked on top of each other break at once.
      */
     @Override
     protected void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity, EntityCollisionHandler handler, boolean bl) {
         if (world.isClient()) return;
 
-        if (entity instanceof PlayerEntity player && !world.isClient()) {
-            if (player.isSprinting()) {
-                world.breakBlock(pos, false);
-            }
+        if (entity instanceof PlayerEntity player && player.isSprinting()) {
+            world.breakBlock(pos, false); // no item drop
+            return;
         }
 
-    /*not sure: it breaks around 5 blocks fall, but the head counts as hit so really high up*/
         Vec3d velocity = entity.getVelocity();
         double speed = velocity.length();
-            if (speed > 0.9) {
-                world.breakBlock(pos, false); //no item drop
-            }
+        if (speed > 0.9) {
+            world.breakBlock(pos, false); // no item drop
+        }
     }
 
     @Override

@@ -15,7 +15,7 @@ import net.minecraft.util.StringIdentifiable;
 import java.util.Locale;
 
 /**
- * Enum representing the different frieze types for the Vanilla Extensions Mod.
+ * Enum representing the different spider web types for the Vanilla Extensions Mod.
  * <p>
  * Each type describes a possible connection to full blocks
  * and is used at runtime for block rendering.

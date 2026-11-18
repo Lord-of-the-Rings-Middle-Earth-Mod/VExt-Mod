@@ -1,8 +1,5 @@
 {
   "variants": {
-    "spider_web_type=single": {
-      "model": "vext:block/spider_web_test"
-    },
     "spider_web_type=n": [
       {"model": "vext:block/spider_web_side01", "weight": 1},
       {"model": "vext:block/spider_web_side02", "weight": 1}
