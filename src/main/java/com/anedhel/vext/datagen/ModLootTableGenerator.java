@@ -11,9 +11,11 @@
 package com.anedhel.vext.datagen;
 
 import com.anedhel.vext.block.ModBlocks;
+import com.anedhel.vext.block.custom.PebblesBlock;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
 import com.anedhel.vext.block.stonetypes.ModStoneSet;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.stonetypes.ModStoneTypes;
 import com.anedhel.vext.block.woodtypes.ModWoodSet;
 import com.anedhel.vext.block.woodtypes.ModWoodTypes;
@@ -28,18 +30,22 @@ import net.minecraft.data.family.BlockFamily;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.AnyOfLootCondition;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.IntStream;
 
 /**
  * Data generator for block loot tables.
@@ -125,7 +131,28 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 			ModStoneSet stoneSet = stoneType.getModStoneSet();
 			stoneSet.getAllBlockFamilies().forEach(this::generateBlockFamilyLootTables);
 			stoneSet.getAllStoneSubSets().forEach(subSet -> subSet.getAllBlockFamilies().forEach(this::generateBlockFamilyLootTables));
+
+			Block pebbles = ModStonePebbles.getPebbles(stoneType);
+			addDrop(pebbles, pebblesDrops(pebbles));
 		}
+	}
+
+	/**
+	 * Creates the loot table of a {@link PebblesBlock}: it drops one pebble per pebble in the block
+	 * (like candles). Used when the whole block breaks, e.g. last pebble, explosion or missing support.
+	 *
+	 * @param pebbles the pebbles block
+	 * @return the loot table builder
+	 */
+	private LootTable.Builder pebblesDrops(Block pebbles) {
+		List<Integer> counts = IntStream.rangeClosed(2, PebblesBlock.MAX_PEBBLES).boxed().toList();
+		return LootTable.builder().pool(LootPool.builder()
+				.rolls(ConstantLootNumberProvider.create(1.0F))
+				.with(this.applyExplosionDecay(pebbles, ItemEntry.builder(pebbles)
+						.apply(counts, count -> SetCountLootFunction.builder(ConstantLootNumberProvider.create(count))
+								.conditionally(BlockStatePropertyLootCondition.builder(pebbles)
+										.properties(StatePredicate.Builder.create()
+												.exactMatch(PebblesBlock.PEBBLES, count)))))));
 	}
 
 	/**

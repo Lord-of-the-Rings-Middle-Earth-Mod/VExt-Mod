@@ -12,6 +12,7 @@ package com.anedhel.vext.datagen;
 
 import com.anedhel.vext.block.ModBlocks;
 import com.anedhel.vext.block.stonetypes.ModStoneSet;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.stonetypes.ModStoneSubSet;
 import com.anedhel.vext.block.stonetypes.ModStoneTypes;
 import com.anedhel.vext.block.stonetypes.StoneTypeVariants;
@@ -37,6 +38,7 @@ import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SmokingRecipe;
 import net.minecraft.recipe.book.RecipeCategory;
+import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.resource.featuretoggle.FeatureFlags;
@@ -223,7 +225,38 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
 					generateStoneCraftingTree(stoneSet);
 					generateStoneCuttingRecipes(stoneSet, stoneType.getFileConformName());
+
+					generatePebblesRecipes(ModStonePebbles.getPebbles(stoneType), stoneSet.getCobbledVariant("base"));
 				}
+			}
+
+			/**
+			 * Generates the pebbles recipes of a stone type:
+			 * two cobbled blocks placed diagonally give 18 pebbles, nine pebbles (3x3) give one cobbled block.
+			 * The diagonal pattern also works mirrored.
+			 *
+			 * @param pebbles the pebbles block
+			 * @param cobbled the cobbled base block of the same stone type
+			 */
+			private void generatePebblesRecipes(Block pebbles, Block cobbled) {
+				String pebblesName = Registries.BLOCK.getId(pebbles).getPath();
+				String cobbledName = Registries.BLOCK.getId(cobbled).getPath();
+
+				this.createShaped(RecipeCategory.DECORATIONS, pebbles, 18)
+						.pattern("C ")
+						.pattern(" C")
+						.input('C', cobbled)
+						.group("pebbles")
+						.criterion("has_" + cobbledName, this.conditionsFromItem(cobbled))
+						.offerTo(this.exporter, pebblesName + "_from_" + cobbledName);
+
+				this.createShaped(RecipeCategory.BUILDING_BLOCKS, cobbled)
+						.pattern("PPP")
+						.pattern("PPP")
+						.pattern("PPP")
+						.input('P', pebbles)
+						.criterion("has_" + pebblesName, this.conditionsFromItem(pebbles))
+						.offerTo(this.exporter, cobbledName + "_from_" + pebblesName);
 			}
 
 			/**

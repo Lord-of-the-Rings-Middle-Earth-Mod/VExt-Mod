@@ -13,11 +13,13 @@ package com.anedhel.vext.datagen;
 import com.anedhel.vext.VExtMod;
 import com.anedhel.vext.block.ModBlocks;
 import com.anedhel.vext.block.custom.ModPillarBlock;
+import com.anedhel.vext.block.custom.PebblesBlock;
 import com.anedhel.vext.block.custom.ModPillarType;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.ModFriezeBlock;
 import com.anedhel.vext.block.custom.ModFriezeType;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.stonetypes.ModStoneSubSet;
 import com.anedhel.vext.block.stonetypes.ModStoneTypes;
 import com.anedhel.vext.block.woodtypes.ModWoodSet;
@@ -33,9 +35,11 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.block.Block;
 import net.minecraft.block.PressurePlateBlock;
 import net.minecraft.client.data.*;
+import net.minecraft.client.render.model.json.ModelVariant;
 import net.minecraft.client.render.model.json.WeightedVariant;
 import net.minecraft.data.family.BlockFamily;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.collection.Pool;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -233,7 +237,49 @@ public class ModModelProvider extends FabricModelProvider {
 					ModTextures.BRONZE_FANCY_BRICKS_OVERLAY, ModTextures.SILVER_FANCY_BRICKS_OVERLAY,
 					ModTextures.GOLD_FANCY_BRICKS_OVERLAY, ModTextures.MOSSY_OVERLAY_TWO,
 					ModTextures.GLOWSTONE_FANCY_BRICKS_OVERLAY);
+
+			generatePebblesBlockStateModels(blockStateModelGenerator, ModStonePebbles.getPebbles(stoneType),
+					stoneSet.getStoneVariant("base"));
 		}
+	}
+
+	/**
+	 * Generates the models, block state and item model of a {@link PebblesBlock}.
+	 * <p>
+	 * For every pebble count (1-6) one model is generated from {@code template_pebbles_<count>}, using the
+	 * texture of the base stone. Each count gets the same four y-rotations, so a block keeps its rotation
+	 * when pebbles are added and the stones already lying there stay in place.
+	 * The item uses the model with three stones.
+	 *
+	 * @param blockStateModelGenerator the {@link BlockStateModelGenerator}
+	 * @param pebbles the pebbles block
+	 * @param baseStone the base stone block, whose texture is used for the pebbles
+	 */
+	private void generatePebblesBlockStateModels(BlockStateModelGenerator blockStateModelGenerator, Block pebbles,
+			Block baseStone) {
+		TextureMap textureMap = new TextureMap().put(ModTextureKeys.STONE, TextureMap.getId(baseStone));
+		BlockStateVariantMap.SingleProperty<WeightedVariant, Integer> variantMap =
+				BlockStateVariantMap.models(PebblesBlock.PEBBLES);
+		Identifier itemModelId = null;
+
+		for (int count = 1; count <= PebblesBlock.MAX_PEBBLES; count++) {
+			Identifier modelId = ModModels.PEBBLES[count - 1].upload(pebbles, textureMap,
+					blockStateModelGenerator.modelCollector);
+			ModelVariant variant = new ModelVariant(modelId);
+			variantMap.register(count, new WeightedVariant(Pool.<ModelVariant>builder()
+					.add(variant)
+					.add(variant.with(ROTATE_Y_90))
+					.add(variant.with(ROTATE_Y_180))
+					.add(variant.with(ROTATE_Y_270))
+					.build()));
+			if (count == 3) {
+				itemModelId = modelId;
+			}
+		}
+
+		blockStateModelGenerator.blockStateCollector.accept(
+				VariantsBlockModelDefinitionCreator.of(pebbles).with(variantMap));
+		blockStateModelGenerator.registerParentedItemModel(pebbles, itemModelId);
 	}
 
 	/**
