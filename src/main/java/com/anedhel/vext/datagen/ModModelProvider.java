@@ -237,10 +237,10 @@ public class ModModelProvider extends FabricModelProvider {
 					ModTextures.BRONZE_FANCY_BRICKS_OVERLAY, ModTextures.SILVER_FANCY_BRICKS_OVERLAY,
 					ModTextures.GOLD_FANCY_BRICKS_OVERLAY, ModTextures.MOSSY_OVERLAY_TWO,
 					ModTextures.GLOWSTONE_FANCY_BRICKS_OVERLAY);
-
-			generatePebblesBlockStateModels(blockStateModelGenerator, ModStonePebbles.getPebbles(stoneType),
-					stoneSet.getStoneVariant("base"));
 		}
+
+		ModStonePebbles.getAll().forEach(pebbles -> generatePebblesBlockStateModels(blockStateModelGenerator,
+				pebbles.pebbles(), pebbles.baseStone()));
 	}
 
 	/**

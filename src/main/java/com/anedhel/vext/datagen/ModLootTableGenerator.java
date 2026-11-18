@@ -131,10 +131,9 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 			ModStoneSet stoneSet = stoneType.getModStoneSet();
 			stoneSet.getAllBlockFamilies().forEach(this::generateBlockFamilyLootTables);
 			stoneSet.getAllStoneSubSets().forEach(subSet -> subSet.getAllBlockFamilies().forEach(this::generateBlockFamilyLootTables));
-
-			Block pebbles = ModStonePebbles.getPebbles(stoneType);
-			addDrop(pebbles, pebblesDrops(pebbles));
 		}
+
+		ModStonePebbles.getAll().forEach(pebbles -> addDrop(pebbles.pebbles(), pebblesDrops(pebbles.pebbles())));
 	}
 
 	/**

@@ -134,7 +134,7 @@ public class ModItemGroups {
 					.icon(() -> new ItemStack(ModBlocks.SPIDER_WEB))
 					.entries(((displayContext, entries) -> {
 						entries.add(ModBlocks.SPIDER_WEB);
-						ModStonePebbles.getAllPebbles().forEach(entries::add);
+						ModStonePebbles.getAll().forEach(pebbles -> entries.add(pebbles.pebbles()));
 					})).build());
 	/**
 	 * Currently disable to not include the Hobbit_Spawn Egg into the game, as Hobbits are bugged without fix.

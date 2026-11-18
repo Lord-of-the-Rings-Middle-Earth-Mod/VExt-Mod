@@ -181,9 +181,9 @@ public class ModEnUsLangProvider extends FabricLanguageProvider {
 			stoneSet.getAllBlockFamilies().forEach(family -> generateBlockFamilyTranslations(translationBuilder, family));
 
 			stoneSet.getAllStoneSubSets().forEach(subSet -> subSet.getAllBlockFamilies().forEach(family -> generateBlockFamilyTranslations(translationBuilder, family)));
-
-			translationBuilder.add(ModStonePebbles.getPebbles(stoneType), stoneType.getName() + " Pebbles");
 		}
+
+		ModStonePebbles.getAll().forEach(pebbles -> translationBuilder.add(pebbles.pebbles(), pebbles.displayName()));
 	}
 
 	/**

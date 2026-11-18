@@ -225,9 +225,12 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
 					generateStoneCraftingTree(stoneSet);
 					generateStoneCuttingRecipes(stoneSet, stoneType.getFileConformName());
-
-					generatePebblesRecipes(ModStonePebbles.getPebbles(stoneType), stoneSet.getCobbledVariant("base"));
 				}
+
+				// vanilla pebbles have no cobbled block yet, see the TODO in ModStonePebbles
+				ModStonePebbles.getAll().stream()
+						.filter(pebbles -> pebbles.cobbled() != null)
+						.forEach(pebbles -> generatePebblesRecipes(pebbles.pebbles(), pebbles.cobbled()));
 			}
 
 			/**
