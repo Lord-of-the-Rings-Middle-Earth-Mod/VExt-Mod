@@ -141,19 +141,35 @@ public class PebblesBlock extends Block {
 	 * This method should be called once during mod initialization.
 	 */
 	public static void registerBreakHandler() {
-		PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {
-			if (!(state.getBlock() instanceof PebblesBlock) || state.get(PEBBLES) <= 1) {
-				return true;
-			}
+		PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) ->
+				!tryRemoveOnePebble(world, player, pos, state));
+	}
 
-			world.setBlockState(pos, state.with(PEBBLES, state.get(PEBBLES) - 1), Block.NOTIFY_ALL);
-			if (!player.isCreative()) {
-				Block.dropStack(world, pos, new ItemStack(state.getBlock()));
-			}
-			// the cancelled break skips spawnBreakParticles, so play the break sound for the other players here
-			playBreakSound(world, player, pos, state);
+	/**
+	 * Removes one pebble instead of breaking the whole block, if the block has more than one pebble.
+	 * <p>
+	 * Used on the server by {@link #registerBreakHandler()} and on the client by
+	 * {@code ClientPlayerInteractionManagerMixin}, so the client predicts the same result as the server
+	 * and the block does not flicker. The pebble is only dropped on the server and not in creative mode.
+	 * The break sound replaces the particles (see {@link #spawnBreakParticles}).
+	 *
+	 * @param world the world
+	 * @param player the player breaking the block
+	 * @param pos the position of the block
+	 * @param state the current state of the block
+	 * @return {@code true} if one pebble was removed, {@code false} if the block should break normally
+	 */
+	public static boolean tryRemoveOnePebble(World world, PlayerEntity player, BlockPos pos, BlockState state) {
+		if (!(state.getBlock() instanceof PebblesBlock) || state.get(PEBBLES) <= 1) {
 			return false;
-		});
+		}
+
+		world.setBlockState(pos, state.with(PEBBLES, state.get(PEBBLES) - 1), Block.NOTIFY_ALL_AND_REDRAW);
+		if (!world.isClient() && !player.isCreative()) {
+			Block.dropStack(world, pos, new ItemStack(state.getBlock()));
+		}
+		playBreakSound(world, player, pos, state);
+		return true;
 	}
 
 	/**
