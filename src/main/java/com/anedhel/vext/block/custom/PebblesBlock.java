@@ -15,8 +15,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +27,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.WorldEvents;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.tick.ScheduledTickView;
 import org.jspecify.annotations.Nullable;
@@ -147,9 +150,31 @@ public class PebblesBlock extends Block {
 			if (!player.isCreative()) {
 				Block.dropStack(world, pos, new ItemStack(state.getBlock()));
 			}
-			// break particles and sound for other players, the breaking player already sees them
-			world.syncWorldEvent(player, WorldEvents.BLOCK_BROKEN, pos, Block.getRawIdFromState(state));
+			// the cancelled break skips spawnBreakParticles, so play the break sound for the other players here
+			playBreakSound(world, player, pos, state);
 			return false;
 		});
+	}
+
+	/**
+	 * Replaces the vanilla break particles with only the break sound.
+	 * <p>
+	 * Called on the client (for the breaking player) and on the server (for all other players)
+	 * when a player breaks the block.
+	 */
+	@Override
+	protected void spawnBreakParticles(World world, PlayerEntity player, BlockPos pos, BlockState state) {
+		playBreakSound(world, player, pos, state);
+	}
+
+	/**
+	 * Plays the break sound of the block with the vanilla volume and pitch.
+	 * On the client it is played for the given player, on the server for everyone except that player,
+	 * so every player hears it once.
+	 */
+	private static void playBreakSound(World world, PlayerEntity player, BlockPos pos, BlockState state) {
+		BlockSoundGroup sounds = state.getSoundGroup();
+		world.playSound(player, pos, sounds.getBreakSound(), SoundCategory.BLOCKS,
+				(sounds.getVolume() + 1.0f) / 2.0f, sounds.getPitch() * 0.8f);
 	}
 }
