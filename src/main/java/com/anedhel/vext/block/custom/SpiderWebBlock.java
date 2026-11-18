@@ -278,7 +278,7 @@ public class SpiderWebBlock extends Block {
      * faster than 0.9 blocks per tick (arrow, egg, falling player...) the web breaks and uses the
      * lower string chance of the loot table, because no player is passed as breaking entity.
      * <p>
-     * Only called when the entity touches the web shape, see
+     * Players trigger this in the full block, other entities only on the web shape, see
      * {@link #getInsideCollisionShape(BlockState, BlockView, BlockPos, Entity)}.
      * <p>
      * A falling player reaches 0.9 blocks per tick after roughly 6 blocks of free fall
@@ -303,11 +303,17 @@ public class SpiderWebBlock extends Block {
     }
 
     /**
-     * Limits {@link #onEntityCollision} to the visible web shape instead of the full block,
-     * so an egg or arrow only breaks the web when it actually hits the web.
+     * Defines where {@link #onEntityCollision} is triggered.
+     * <p>
+     * Players use the full block, so running or falling into the block space breaks the web.
+     * All other entities (egg, arrow...) use the visible web shape, so they only break the web
+     * when they actually hit it.
      */
     @Override
     protected VoxelShape getInsideCollisionShape(BlockState state, BlockView world, BlockPos pos, Entity entity) {
+        if (entity instanceof PlayerEntity) {
+            return VoxelShapes.fullCube();
+        }
         return SHAPES.get(state.get(SPIDER_WEB_TYPE));
     }
 

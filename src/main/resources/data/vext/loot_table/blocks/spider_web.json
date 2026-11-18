@@ -38,6 +38,10 @@
                   "predicate": {
                     "type": "minecraft:player"
                   }
+                },
+                {
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.4
                 }
               ]
             },
@@ -46,8 +50,18 @@
               "name": "minecraft:string",
               "conditions": [
                 {
+                  "condition": "minecraft:inverted",
+                  "term": {
+                    "condition": "minecraft:entity_properties",
+                    "entity": "this",
+                    "predicate": {
+                      "type": "minecraft:player"
+                    }
+                  }
+                },
+                {
                   "condition": "minecraft:random_chance",
-                  "chance": 0.4
+                  "chance": 0.1
                 }
               ]
             }
