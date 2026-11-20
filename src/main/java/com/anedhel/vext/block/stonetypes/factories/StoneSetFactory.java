@@ -20,10 +20,9 @@ import com.anedhel.vext.block.custom.ModPillarBlock;
 import com.anedhel.vext.block.stonetypes.ModStoneSet;
 import com.anedhel.vext.block.stonetypes.ModStoneSubSet;
 import net.minecraft.block.*;
-import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.data.family.BlockFamilies;
 import net.minecraft.data.family.BlockFamily;
-import net.minecraft.sound.BlockSoundGroup;
 
 import java.util.Arrays;
 import java.util.List;
@@ -110,44 +109,49 @@ public class StoneSetFactory {
 
 	private static BlockFamily createStoneBlockFamily(String name, String prefix, StoneSetSettings stoneSetSettings,
 			List<BlockFamily.Variant> variants, Function<AbstractBlock.Settings, Block> blockFactory) {
-		float hardness          = stoneSetSettings.baseHardness();
-		float resistance        = stoneSetSettings.baseResistance();
-		BlockSoundGroup sound   = stoneSetSettings.sound();
-		MapColor mapColor       = stoneSetSettings.mapColor();
-		NoteBlockInstrument instrument = stoneSetSettings.instrument();
 
-		Block base = registerBlock(joinName(prefix, name), s -> blockFactory.apply(stoneSettings(s, hardness,
-				resistance,	sound, mapColor, instrument, false)));
+		Block base = registerBlock(joinName(prefix, name), s -> blockFactory.apply(stoneSettings(s, stoneSetSettings,
+				false, true)));
 		BlockFamily.Builder builder = BlockFamilies.register(base);
 
 		String variantName = variantBaseName(name);
 
 		if (variants.contains(BlockFamily.Variant.STAIRS))
 			builder.stairs(registerBlock(joinName(prefix, variantName, "stairs"),
-					s -> new StairsBlock(base.getDefaultState(), stoneSettings(s, hardness, resistance, sound, mapColor, instrument, false))));
+					s -> new StairsBlock(base.getDefaultState(), stoneSettings(s, stoneSetSettings, false, true))));
 		if (variants.contains(BlockFamily.Variant.SLAB))
 			builder.slab(registerBlock(joinName(prefix, variantName, "slab"),
-					s -> new SlabBlock(stoneSettings(s, hardness, resistance, sound, mapColor, instrument, false))));
+					s -> new SlabBlock(stoneSettings(s, stoneSetSettings, false, true))));
 		if (variants.contains(BlockFamily.Variant.WALL))
 			builder.wall(registerBlock(joinName(prefix, variantName, "wall"),
-					s -> new WallBlock(stoneSettings(s, hardness, resistance, sound, mapColor, instrument, false))));
+					s -> new WallBlock(stoneSettings(s, stoneSetSettings, false, true))));
 		if (variants.contains(BlockFamily.Variant.CHISELED))
 			builder.chiseled(registerBlock(joinName(prefix, "chiseled", variantName),
-					s -> new Block(stoneSettings(s, hardness, resistance, sound, mapColor, instrument, false))));
+					s -> new Block(stoneSettings(s, stoneSetSettings, false, true))));
 		if (variants.contains(BlockFamily.Variant.BUTTON))
 			builder.button(registerBlock(joinName(prefix, variantName, "button"),
-					s -> new ButtonBlock(BlockSetType.STONE, 10, stoneSettings(s, hardness, resistance, sound, mapColor, instrument, true))));
+					s -> new ButtonBlock(BlockSetType.STONE, 10, stoneSettings(s,
+							stoneSetSettings.withPistonBehavior(PistonBehavior.DESTROY), true, false))));
 		if (variants.contains(BlockFamily.Variant.PRESSURE_PLATE))
 			builder.pressurePlate(registerBlock(joinName(prefix, variantName, "pressure_plate"),
-					s -> new PressurePlateBlock(BlockSetType.STONE, stoneSettings(s, hardness, resistance, sound, mapColor, instrument, true))));
+					s -> new PressurePlateBlock(BlockSetType.STONE,
+							stoneSettings(s, stoneSetSettings.withPistonBehavior(PistonBehavior.DESTROY), true, false))));
 
 		return builder.build();
 	}
 
-	private static AbstractBlock.Settings stoneSettings(AbstractBlock.Settings settings, float hardness, float resistance,
-			BlockSoundGroup sound, MapColor mapColor, NoteBlockInstrument instrument, boolean redstoneBlock) {
-		AbstractBlock.Settings base = settings.strength(hardness, resistance).requiresTool().sounds(sound);
-		return redstoneBlock ? base : base.mapColor(mapColor).instrument(instrument);
+	private static AbstractBlock.Settings stoneSettings(AbstractBlock.Settings settings, StoneSetSettings stoneSetSettings,
+			boolean redstoneBlock, boolean collision) {
+		AbstractBlock.Settings base =
+				settings.strength(stoneSetSettings.baseHardness(), stoneSetSettings.baseResistance())
+						.requiresTool()
+						.sounds(stoneSetSettings.sound())
+						.luminance(state -> stoneSetSettings.luminance())
+						.pistonBehavior(stoneSetSettings.pistonBehavior());
+		if(!collision) {
+			base.noCollision();
+		}
+		return redstoneBlock ? base : base.mapColor(stoneSetSettings.mapColor()).instrument(stoneSetSettings.instrument());
 	}
 
 	private static String joinName(String... parts){

@@ -17,6 +17,7 @@ package com.anedhel.vext.block.stonetypes.factories;
 
 import net.minecraft.block.MapColor;
 import net.minecraft.block.enums.NoteBlockInstrument;
+import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.sound.BlockSoundGroup;
 
 public record StoneSetSettings(
@@ -25,36 +26,42 @@ public record StoneSetSettings(
 		BlockSoundGroup sound,
 		MapColor mapColor,
 		NoteBlockInstrument instrument,
+		PistonBehavior pistonBehavior,
 		int luminance) {
 	private static final BlockSoundGroup DEFAULT_SOUND_GROUP = BlockSoundGroup.STONE;
 	private static final MapColor DEFAULT_MAP_COLOR = MapColor.STONE_GRAY;
 	private static final NoteBlockInstrument DEFAULT_INSTRUMENT = NoteBlockInstrument.BASEDRUM;
+	private static final PistonBehavior DEFAULT_PISTON_BEHAVIOR = PistonBehavior.NORMAL;
 	private static final int DEFAULT_LUMINANCE = 0;
 
 
 	public StoneSetSettings(float baseHardness, float baseResistance) {
 		this(baseHardness, baseResistance, DEFAULT_SOUND_GROUP, DEFAULT_MAP_COLOR, DEFAULT_INSTRUMENT,
-				DEFAULT_LUMINANCE);
+				DEFAULT_PISTON_BEHAVIOR, DEFAULT_LUMINANCE);
 	}
 
 	public StoneSetSettings(float baseHardness, float baseResistance, int luminance) {
 		this(baseHardness, baseResistance, DEFAULT_SOUND_GROUP, DEFAULT_MAP_COLOR, DEFAULT_INSTRUMENT,
-				luminance);
+				DEFAULT_PISTON_BEHAVIOR, luminance);
 	}
 
 	public StoneSetSettings withLuminance(int luminance) {
-		return new StoneSetSettings(baseHardness, baseResistance, sound, mapColor, instrument, luminance);
+		return new StoneSetSettings(baseHardness, baseResistance, sound, mapColor, instrument, pistonBehavior, luminance);
 	}
 
 	public StoneSetSettings withStrength(float strength) {
-		return new StoneSetSettings(strength, strength, sound, mapColor, instrument, luminance);
+		return new StoneSetSettings(strength, strength, sound, mapColor, instrument, pistonBehavior, luminance);
 	}
 
 	public StoneSetSettings withHardness(float hardness) {
-		return new StoneSetSettings(hardness, baseResistance, sound, mapColor, instrument, luminance);
+		return new StoneSetSettings(hardness, baseResistance, sound, mapColor, instrument, pistonBehavior, luminance);
 	}
 
 	public StoneSetSettings withResistance(float resistance) {
-		return new StoneSetSettings(baseHardness, resistance, sound, mapColor, instrument, luminance);
+		return new StoneSetSettings(baseHardness, resistance, sound, mapColor, instrument, pistonBehavior, luminance);
+	}
+
+	public StoneSetSettings withPistonBehavior(PistonBehavior pistonBehavior) {
+		return new StoneSetSettings(baseHardness, baseResistance, sound, mapColor, instrument, pistonBehavior, luminance);
 	}
 }
