@@ -33,6 +33,8 @@ import static com.anedhel.vext.block.ModBlocks.registerBlock;
 
 public class StoneSetFactory {
 
+	private static final List<String> PLURAL_SUFFIXES = List.of("_bricks", "_tiles");
+
 	private static final List<BlockFamily.Variant> variantsOne   = List.of(BlockFamily.Variant.SLAB);
 	private static final List<BlockFamily.Variant> variantsTwo   = List.of(BlockFamily.Variant.STAIRS, BlockFamily.Variant.SLAB);
 	private static final List<BlockFamily.Variant> variantsThree = List.of(BlockFamily.Variant.STAIRS, BlockFamily.Variant.SLAB, BlockFamily.Variant.WALL);
@@ -161,6 +163,11 @@ public class StoneSetFactory {
 	}
 
 	private static String variantBaseName(String name) {
-		return name.endsWith("s") ? name.substring(0, name.length() - 1) : name;
+		for(String suffix : PLURAL_SUFFIXES) {
+			if(name.endsWith(suffix)) {
+				return name.substring(0, name.length() - suffix.length());
+			}
+		}
+		return name;
 	}
 }
