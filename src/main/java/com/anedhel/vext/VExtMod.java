@@ -19,6 +19,7 @@ import com.anedhel.vext.item.ModItemGroups;
 import com.anedhel.vext.item.ModItems;
 import com.anedhel.vext.recipe.ModRecipes;
 import com.anedhel.vext.screen.ModScreenHandlers;
+import com.anedhel.vext.sound.ModSounds;
 import com.anedhel.vext.world.dimension.ModDimensions;
 import com.anedhel.vext.world.gen.ModEntitySpawns;
 import com.anedhel.vext.world.gen.ModWorldGenerator;
@@ -50,6 +51,7 @@ public class VExtMod implements ModInitializer {
 		LOGGER.info("Initializing " + MOD_ID + " mod.");
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+		ModSounds.registerSounds();
 		ModItemGroups.registerItemGroups();
 
 		ModScreenHandlers.registerScreenHandlers();
