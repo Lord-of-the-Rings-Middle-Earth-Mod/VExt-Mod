@@ -9,6 +9,9 @@ ___
   + Applies to: Polished, Pillar, Frieze, Cobbled Brick, Rustic Brick, Brick (with Chiseled), Tile, Pavement and Fancy Brick SubSets
   + Crafted with Glowstone Dust; cracked variants obtained by smelting
 + Added Chalk as stoneType
+
+### Changes
+* Stone Type Registration is now handled with a Factory
 ___
 ## 0.1.0
 ### Additions:

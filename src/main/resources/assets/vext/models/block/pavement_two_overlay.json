@@ -1,7 +1,7 @@
 {
 	"parent": "minecraft:block/cube",
 	"textures" : {
-		"particle": "#end"
+		"particle": "#top"
 	},
 	"elements": [
 		{
