@@ -1,5 +1,8 @@
 {
 	"parent": "minecraft:block/cube",
+	"textures" : {
+		"particle": "#top"
+	},
 	"elements": [
 		{
 			"from": [0, 0, 0],

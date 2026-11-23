@@ -1610,7 +1610,7 @@ public class ModModelProvider extends FabricModelProvider {
 				eastTexture, "_right", southTexture, "_single", westTexture, "_single", false);
 		TextureMap tNorthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_middle",
 				eastTexture, "_single", southTexture, "_single", westTexture, "_single", false);
-		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "single",
+		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_middle", southTexture, "_single", westTexture, "_single", false);
 		TextureMap tSouthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_single", southTexture, "_middle", westTexture, "_single", false);
@@ -1722,7 +1722,7 @@ public class ModModelProvider extends FabricModelProvider {
 				eastTexture, "_right", southTexture, "_single", westTexture, "_single", ornamented, overlays);
 		TextureMap tNorthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_middle",
 				eastTexture, "_single", southTexture, "_single", westTexture, "_single", ornamented, overlays);
-		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "single",
+		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_middle", southTexture, "_single", westTexture, "_single", ornamented, overlays);
 		TextureMap tSouthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_single", southTexture, "_middle", westTexture, "_single", ornamented, overlays);
@@ -1835,7 +1835,7 @@ public class ModModelProvider extends FabricModelProvider {
 				eastTexture, "_right", southTexture, "_single", westTexture, "_single", ornamented, overlays);
 		TextureMap tNorthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_middle",
 				eastTexture, "_single", southTexture, "_single", westTexture, "_single", ornamented, overlays);
-		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "single",
+		TextureMap tEastMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_middle", southTexture, "_single", westTexture, "_single", ornamented, overlays);
 		TextureMap tSouthMiddleFriezeTM = createFriezeTextureMap(endTexture, northTexture, "_single",
 				eastTexture, "_single", southTexture, "_middle", westTexture, "_single", ornamented, overlays);
