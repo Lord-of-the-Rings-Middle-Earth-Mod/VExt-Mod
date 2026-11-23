@@ -50,6 +50,10 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 		configureModWoodTypes();
 		configureModStoneTypes();
 
+		// hay rack breaks faster with an axe, like planks
+		valueLookupBuilder(BlockTags.AXE_MINEABLE)
+				.add(ModBlocks.HAY_RACK);
+
 		valueLookupBuilder(BlockTags.PICKAXE_MINEABLE)
 				.add(ModBlocks.TIN_ORE)
 				.add(ModBlocks.DEEPSLATE_TIN_ORE)

@@ -144,6 +144,15 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 				generateModStoneTypeRecipes();
 				generateModGearTypeRecipes();
 
+				// hay rack: sticks in an X shape
+				this.createShaped(RecipeCategory.DECORATIONS, ModBlocks.HAY_RACK)
+						.pattern("S S")
+						.pattern(" S ")
+						.pattern("S S")
+						.input('S', Items.STICK)
+						.criterion("has_stick", this.conditionsFromItem(Items.STICK))
+						.offerTo(this.exporter);
+
 				offerSmelting(TIN_SMELTABLES, RecipeCategory.MISC, ModItems.TIN_INGOT, 0.7f, 200, "tin");
 				offerBlasting(TIN_SMELTABLES, RecipeCategory.MISC, ModItems.TIN_INGOT, 0.7f, 100, "tin");
 				offerSmelting(List.of(ModBlocks.RAW_TIN_BLOCK), RecipeCategory.MISC, ModBlocks.TIN_BLOCK.asItem(),

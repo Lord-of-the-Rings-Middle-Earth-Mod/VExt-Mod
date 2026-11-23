@@ -22,12 +22,15 @@ import com.anedhel.vext.screen.ModScreenHandlers;
 import com.anedhel.vext.screen.custom.CarpentryTableScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.color.world.BiomeColors;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.BlockRenderLayer;
 import net.minecraft.data.family.BlockFamily;
+import net.minecraft.world.biome.GrassColors;
 
 /**
  * Client-side initialization class for the Vanilla Extensions Mod.
@@ -49,6 +52,7 @@ public class VExtModClient implements ClientModInitializer {
 		registerWoodTypeCutoutLayers();
 		registerStoneTypeCutoutLayers();
 		registerDecoCutoutLayers();
+		registerDecoBlockColors();
 		registerCropCutoutLayers();
 
 		BlockRenderLayerMap.putBlock(ModBlocks.CARPENTRY_TABLE, BlockRenderLayer.CUTOUT);
@@ -94,6 +98,19 @@ public class VExtModClient implements ClientModInitializer {
 	 */
 	private void registerDecoCutoutLayers() {
 		BlockRenderLayerMap.putBlock(ModBlocks.HAY_RACK, BlockRenderLayer.CUTOUT);
+	}
+
+	/**
+	 * Registers biome colors for deco blocks.
+	 * <p>
+	 * The grass in the hay rack (faces with {@code tintindex 0} in {@code hay_rack_fill1-8}) uses the
+	 * grass color of the biome, like grass blocks. Without a world (e.g. in the inventory) the default grass
+	 * color is used.
+	 */
+	private void registerDecoBlockColors() {
+		ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) ->
+				world != null && pos != null ? BiomeColors.getGrassColor(world, pos) : GrassColors.getDefaultColor(),
+				ModBlocks.HAY_RACK);
 	}
 
 	/**

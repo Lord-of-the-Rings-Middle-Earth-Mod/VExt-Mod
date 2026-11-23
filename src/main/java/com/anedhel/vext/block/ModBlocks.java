@@ -97,7 +97,7 @@ public class ModBlocks {
 			settings -> new CarpentryTable(settings.strength(2.5f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
 	public static final Block HAY_RACK = registerBlock("hay_rack",
-			settings -> new HayRack(settings.strength(1.5f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
+			settings -> new HayRack(settings.strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
 	/**
 	 * Registers a {@link Block} and creates its associated {@link BlockItem}.
