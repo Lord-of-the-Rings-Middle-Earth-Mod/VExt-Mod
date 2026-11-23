@@ -165,7 +165,7 @@ public class StoneSetFactory {
 	private static String variantBaseName(String name) {
 		for(String suffix : PLURAL_SUFFIXES) {
 			if(name.endsWith(suffix)) {
-				return name.substring(0, name.length() - suffix.length());
+				return name.substring(0, name.length() - 1);
 			}
 		}
 		return name;
