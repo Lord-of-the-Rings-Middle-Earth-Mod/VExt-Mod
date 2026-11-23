@@ -296,6 +296,19 @@ public class ModModels {
 			TextureKey.END, TextureKey.SIDE, TextureKey.LAYER1, ModTextureKeys.END_LAYER1, TextureKey.LAYER2, ModTextureKeys.END_LAYER2);
 
 	/**
+	 * Pebbles models, index 0 shows one stone, index 5 shows all six stones.
+	 * The generated models are named {@code <stone type>_pebbles_1} to {@code _6}.
+	 */
+	public static final Model[] PEBBLES = {
+			block("pebbles_1", "_1", ModTextureKeys.STONE),
+			block("pebbles_2", "_2", ModTextureKeys.STONE),
+			block("pebbles_3", "_3", ModTextureKeys.STONE),
+			block("pebbles_4", "_4", ModTextureKeys.STONE),
+			block("pebbles_5", "_5", ModTextureKeys.STONE),
+			block("pebbles_6", "_6", ModTextureKeys.STONE)
+	};
+
+	/**
 	 * Helper method to create a block model with the given parent and required texture keys.
 	 * @param parent the parent model's name as String
 	 * @param requiredTextureKeys the required texture keys, seperated by commas

@@ -16,6 +16,7 @@ import com.anedhel.vext.block.custom.SpiderWebBlock;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
 import com.anedhel.vext.block.stonetypes.ModStoneBlocks;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.woodtypes.PineBlocks;
 import com.anedhel.vext.sound.ModSounds;
 import net.minecraft.block.*;
@@ -151,6 +152,7 @@ public class ModBlocks {
 		VExtMod.LOGGER.info("Registering Mod Blocks for " + VExtMod.MOD_ID);
 		registerModWoodBlocks();
 		ModStoneBlocks.registerModStoneBlocks();
+		ModStonePebbles.registerPebbles();
 	}
 
 	/**

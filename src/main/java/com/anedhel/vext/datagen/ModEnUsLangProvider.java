@@ -13,6 +13,7 @@ package com.anedhel.vext.datagen;
 import com.anedhel.vext.block.ModBlockTags;
 import com.anedhel.vext.block.ModBlocks;
 import com.anedhel.vext.block.stonetypes.ModStoneSet;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.stonetypes.ModStoneTypes;
 import com.anedhel.vext.block.woodtypes.ModWoodSet;
 import com.anedhel.vext.block.woodtypes.ModWoodTypes;
@@ -181,6 +182,8 @@ public class ModEnUsLangProvider extends FabricLanguageProvider {
 
 			stoneSet.getAllStoneSubSets().forEach(subSet -> subSet.getAllBlockFamilies().forEach(family -> generateBlockFamilyTranslations(translationBuilder, family)));
 		}
+
+		ModStonePebbles.getAll().forEach(pebbles -> translationBuilder.add(pebbles.pebbles(), pebbles.displayName()));
 	}
 
 	/**

@@ -30,4 +30,6 @@ public class ModTextureKeys {
 	public static final TextureKey EAST_LAYER1 = TextureKey.of("east_layer1");
 	public static final TextureKey SOUTH_LAYER1 = TextureKey.of("south_layer1");
 	public static final TextureKey WEST_LAYER1 = TextureKey.of("west_layer1");
+	/** Stone texture of the pebbles models ({@code pebbles_1} to {@code _6}). */
+	public static final TextureKey STONE = TextureKey.of("stone");
 }

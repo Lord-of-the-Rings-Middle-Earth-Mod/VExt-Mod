@@ -5,6 +5,9 @@
 	"mixins": [
 		"AxeItemMixin"
 	],
+	"client": [
+		"client.ClientPlayerInteractionManagerMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	},

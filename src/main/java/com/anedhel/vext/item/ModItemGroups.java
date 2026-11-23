@@ -13,6 +13,7 @@ package com.anedhel.vext.item;
 import com.anedhel.vext.VExtMod;
 import com.anedhel.vext.block.ModBlocks;
 import com.anedhel.vext.block.stonetypes.ModStoneBlocks;
+import com.anedhel.vext.block.stonetypes.ModStonePebbles;
 import com.anedhel.vext.block.woodtypes.PineBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.item.ItemGroup;
@@ -132,6 +133,7 @@ public class ModItemGroups {
 					.icon(() -> new ItemStack(ModBlocks.SPIDER_WEB))
 					.entries(((displayContext, entries) -> {
 						entries.add(ModBlocks.SPIDER_WEB);
+						ModStonePebbles.getAll().forEach(pebbles -> entries.add(pebbles.pebbles()));
 					})).build());
 	/**
 	 * Currently disable to not include the Hobbit_Spawn Egg into the game, as Hobbits are bugged without fix.
