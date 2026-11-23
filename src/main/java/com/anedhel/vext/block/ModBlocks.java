@@ -13,11 +13,12 @@ package com.anedhel.vext.block;
 import com.anedhel.vext.VExtMod;
 import com.anedhel.vext.block.custom.CarpentryTable;
 import com.anedhel.vext.block.custom.HayRack;
+import com.anedhel.vext.block.custom.SpiderWebBlock;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
-import com.anedhel.vext.block.stonetypes.BlueslateBlocks;
-import com.anedhel.vext.block.stonetypes.ChalkBlocks;
+import com.anedhel.vext.block.stonetypes.ModStoneBlocks;
 import com.anedhel.vext.block.woodtypes.PineBlocks;
+import com.anedhel.vext.sound.ModSounds;
 import net.minecraft.block.*;
 import net.minecraft.block.piston.PistonBehavior;
 import net.minecraft.entity.effect.StatusEffects;
@@ -96,6 +97,9 @@ public class ModBlocks {
 	public static final Block CARPENTRY_TABLE = registerBlock("carpentry_table",
 			settings -> new CarpentryTable(settings.strength(2.5f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
+	public static final Block SPIDER_WEB = registerBlock("spider_web",
+	settings -> new SpiderWebBlock(settings.breakInstantly().sounds(ModSounds.SPIDER_WEB_SOUNDS).nonOpaque()));
+
 	public static final Block HAY_RACK = registerBlock("hay_rack",
 			settings -> new HayRack(settings.strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
@@ -150,7 +154,7 @@ public class ModBlocks {
 	public static void registerModBlocks(){
 		VExtMod.LOGGER.info("Registering Mod Blocks for " + VExtMod.MOD_ID);
 		registerModWoodBlocks();
-		registerModStoneBlocks();
+		ModStoneBlocks.registerModStoneBlocks();
 	}
 
 	/**
@@ -159,14 +163,5 @@ public class ModBlocks {
 	private static void registerModWoodBlocks() {
 		VExtMod.LOGGER.info("Registering Mod Wood Blocks for " + VExtMod.MOD_ID);
 		PineBlocks.registerPineBlocks();
-	}
-
-	/**
-	 * Registers all mod stone block sets.
-	 */
-	private static void registerModStoneBlocks() {
-		VExtMod.LOGGER.info("Registering Mod Stone Blocks for " + VExtMod.MOD_ID);
-		BlueslateBlocks.registerBlueslateBlocks();
-		ChalkBlocks.registerChalkBlocks();
 	}
 }
