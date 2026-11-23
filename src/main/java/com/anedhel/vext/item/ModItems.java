@@ -44,6 +44,9 @@ public class ModItems {
 	public static final Item WARPED_BARK = registerItem("warped_bark", Item::new);
 	public static final Item CRIMSON_BARK = registerItem("crimson_bark", Item::new);
 
+	/** Dried grass, the output of the {@link com.anedhel.vext.block.custom.HayRack}. */
+	public static final Item HAY = registerItem("hay", Item::new);
+
 	public static final Item RAW_TIN = registerItem("raw_tin", Item::new);
 	public static final Item TIN_INGOT = registerItem("tin_ingot",Item::new);
 	public static final Item RAW_SILVER = registerItem("raw_silver",Item::new);

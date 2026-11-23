@@ -11,6 +11,7 @@
 package com.anedhel.vext.datagen;
 
 import com.anedhel.vext.block.ModBlocks;
+import com.anedhel.vext.block.custom.HayRack;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
 import com.anedhel.vext.block.stonetypes.ModStoneSet;
@@ -28,12 +29,14 @@ import net.minecraft.data.family.BlockFamily;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
+import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTable;
 import net.minecraft.loot.condition.AnyOfLootCondition;
 import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
+import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
 import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
@@ -67,6 +70,13 @@ public class ModLootTableGenerator extends FabricBlockLootTableProvider {
 		addDrop(ModBlocks.RAW_SILVER_BLOCK);
 		addDrop(ModBlocks.SILVER_BLOCK);
 		addDrop(ModBlocks.BRONZE_BLOCK);
+
+		// the hay rack drops itself, and its output when it is ready
+		addDrop(ModBlocks.HAY_RACK, this.drops(ModBlocks.HAY_RACK).pool(LootPool.builder()
+				.rolls(ConstantLootNumberProvider.create(1.0F))
+				.with(ItemEntry.builder(HayRack.OUTPUT))
+				.conditionally(BlockStatePropertyLootCondition.builder(ModBlocks.HAY_RACK)
+						.properties(StatePredicate.Builder.create().exactMatch(HayRack.LEVEL, HayRack.READY_LEVEL)))));
 
 		addDrop(ModBlocks.SILVER_ORE, oreDrops(ModBlocks.SILVER_ORE, ModItems.RAW_SILVER));
 		addDrop(ModBlocks.DEEPSLATE_SILVER_ORE, oreDrops(ModBlocks.DEEPSLATE_SILVER_ORE, ModItems.RAW_SILVER));

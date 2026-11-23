@@ -12,6 +12,7 @@ package com.anedhel.vext.block;
 
 import com.anedhel.vext.VExtMod;
 import com.anedhel.vext.block.custom.CarpentryTable;
+import com.anedhel.vext.block.custom.HayRack;
 import com.anedhel.vext.block.custom.SpiderWebBlock;
 import com.anedhel.vext.block.custom.crops.CornCropBlock;
 import com.anedhel.vext.block.custom.crops.TomatoCropBlock;
@@ -98,6 +99,9 @@ public class ModBlocks {
 
 	public static final Block SPIDER_WEB = registerBlock("spider_web",
 	settings -> new SpiderWebBlock(settings.breakInstantly().sounds(ModSounds.SPIDER_WEB_SOUNDS).nonOpaque()));
+
+	public static final Block HAY_RACK = registerBlock("hay_rack",
+			settings -> new HayRack(settings.strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque()));
 
 	/**
 	 * Registers a {@link Block} and creates its associated {@link BlockItem}.

@@ -12,9 +12,12 @@ package com.anedhel.vext.item;
 
 import com.anedhel.vext.VExtMod;
 import com.anedhel.vext.block.ModBlocks;
+import com.anedhel.vext.block.custom.HayRack;
 import com.anedhel.vext.block.stonetypes.ModStoneBlocks;
 import com.anedhel.vext.block.woodtypes.PineBlocks;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.BlockStateComponent;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
@@ -133,6 +136,15 @@ public class ModItemGroups {
 					.entries(((displayContext, entries) -> {
 						entries.add(ModBlocks.SPIDER_WEB);
 					})).build());
+
+	public static final ItemGroup VEXT_HEARTHSIDE_DECO = Registry.register(Registries.ITEM_GROUP,
+			Identifier.of(VExtMod.MOD_ID, "vext_hearthside_deco"), FabricItemGroup.builder().displayName(
+					Text.translatableWithFallback("itemgroup.vext_hearthside_deco", "VEXT Hearthside Deco"))
+					.icon(ModItemGroups::fullHayRackIcon)
+					.entries(((displayContext, entries) -> {
+						entries.add(ModBlocks.HAY_RACK);
+						entries.add(ModItems.HAY);
+					})).build());
 	/**
 	 * Currently disable to not include the Hobbit_Spawn Egg into the game, as Hobbits are bugged without fix.
 	 *
@@ -144,6 +156,21 @@ public class ModItemGroups {
 	 * 						entries.add(ModItems.HOBBIT_SPAWN_EGG);
 	 * 					                    })).build());
 	 */
+
+	/**
+	 * Creates the icon of the Hearthside Deco item group: a hay rack showing the finished hay
+	 * ({@code hay_rack_fill_hay}).
+	 * <p>
+	 * The stack carries the block state {@code level=9}, and {@code items/hay_rack.json} selects the
+	 * full model for that level. This stack is only used as the icon, it is not in the item group.
+	 *
+	 * @return the icon stack.
+	 */
+	private static ItemStack fullHayRackIcon() {
+		ItemStack stack = new ItemStack(ModBlocks.HAY_RACK);
+		stack.set(DataComponentTypes.BLOCK_STATE, BlockStateComponent.DEFAULT.with(HayRack.LEVEL, HayRack.READY_LEVEL));
+		return stack;
+	}
 
 	/**
 	 * This method is called during the mod initialization to ensure that the item groups are registered.

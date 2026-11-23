@@ -11,6 +11,7 @@
 package com.anedhel.vext;
 
 import com.anedhel.vext.block.ModBlocks;
+import com.anedhel.vext.block.custom.HayRack;
 import com.anedhel.vext.block.woodtypes.ModWoodSet;
 import com.anedhel.vext.block.woodtypes.ModWoodTypes;
 import com.anedhel.vext.entity.ModEntities;
@@ -62,6 +63,8 @@ public class VExtMod implements ModInitializer {
 
 		ModWorldGenerator.generateModWorldGen();
 		ModDimensions.register();
+
+		HayRack.registerDefaultHayRackItems();
 
 		addCompostableItems();
 		addDefaultAttributes();

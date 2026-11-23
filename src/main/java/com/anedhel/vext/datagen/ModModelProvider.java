@@ -108,6 +108,11 @@ public class ModModelProvider extends FabricModelProvider {
 		itemModelGenerator.register(ModItems.CORN, Models.GENERATED);
 		itemModelGenerator.register(ModItems.COOKED_CORN, Models.GENERATED);
 
+		// TODO: placeholder, the hay item uses the hay texture of the hay rack until it gets its own item texture.
+		Identifier hayModel = Models.GENERATED.upload(ModItems.HAY,
+				TextureMap.layer0(Identifier.of(VExtMod.MOD_ID, "block/hay_rack_hay")), itemModelGenerator.modelCollector);
+		itemModelGenerator.output.accept(ModItems.HAY, ItemModels.basic(hayModel));
+
 		itemModelGenerator.register(ModItems.RAW_TIN, Models.GENERATED);
 		itemModelGenerator.register(ModItems.RAW_SILVER, Models.GENERATED);
 		itemModelGenerator.register(ModItems.TIN_INGOT, Models.GENERATED);
