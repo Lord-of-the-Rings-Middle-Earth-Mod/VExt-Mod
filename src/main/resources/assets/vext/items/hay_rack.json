@@ -1,6 +1,29 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "vext:block/hay_rack"
+    "type": "minecraft:select",
+    "property": "minecraft:block_state",
+    "block_state_property": "level",
+    "cases": [
+      {
+        "when": "9",
+        "model": {
+          "type": "minecraft:composite",
+          "models": [
+            {
+              "type": "minecraft:model",
+              "model": "vext:block/hay_rack"
+            },
+            {
+              "type": "minecraft:model",
+              "model": "vext:block/hay_rack_fill_hay"
+            }
+          ]
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "vext:block/hay_rack"
+    }
   }
 }
