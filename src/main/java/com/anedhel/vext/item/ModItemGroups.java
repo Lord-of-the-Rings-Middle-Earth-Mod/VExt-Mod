@@ -134,6 +134,7 @@ public class ModItemGroups {
 					.icon(() -> new ItemStack(BlueslateBlocks.BLUESLATE))
 					.entries(((displayContext, entries) -> {
 						entries.add(ModBlocks.HAY_RACK);
+						entries.add(ModItems.HAY);
 					})).build());
 	/**
 	 * Currently disable to not include the Hobbit_Spawn Egg into the game, as Hobbits are bugged without fix.

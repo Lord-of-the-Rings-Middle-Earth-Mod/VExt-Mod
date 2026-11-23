@@ -10,6 +10,7 @@
 
 package com.anedhel.vext.block.custom;
 
+import com.anedhel.vext.item.ModItems;
 import com.mojang.serialization.MapCodec;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -78,9 +79,9 @@ public class HayRack extends Block implements InventoryProvider {
 
 	/**
 	 * The item taken out of a ready hay rack.
-	 * TODO: placeholder, replace with the real hay item once it exists.
+	 * TODO: hay is a placeholder for now, decide later what the output should be.
 	 */
-	public static final Item OUTPUT = Items.DIAMOND;
+	public static final Item OUTPUT = ModItems.HAY;
 
 	public static final Object2FloatMap<ItemConvertible> ITEM_TO_LEVEL_INCREASE_CHANCE = new Object2FloatOpenHashMap<>();
 
